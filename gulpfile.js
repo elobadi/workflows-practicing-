@@ -69,13 +69,11 @@ gulp.task('js', function() {
 
 gulp.task('compass', function() {
   gulp.src(sassSources)
-    // .pipe(plumber())
     .pipe(compass({
         config_file: sassStyle + '-config.rb',
         css: outputDir + 'css',
         sass: 'components/sass',
-        image: outputDir + 'images',
-        // style: sassStyle
+        image: outputDir + 'images'
       })
       .on('error', gutil.log))
     .pipe(gulp.dest(outputDir + 'css'))
