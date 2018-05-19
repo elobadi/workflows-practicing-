@@ -105,9 +105,28 @@ gulp.task('html', function() {
     .pipe(connect.reload());
 });
 
-gulp.task('images', function(){
+gulp.task('images', function() {
   gulp.src('builds/development/images/**/*.*')
-    .pipe(gulpif(env === 'production', imagemin()))
+    .pipe(gulpif(env === 'production', imagemin([
+      imagemin.gifsicle({
+        interlaced: true
+      }),
+      imagemin.jpegtran({
+        progressive: true
+      }),
+      imagemin.optipng({
+        optimizationLevel: 5
+      }),
+      imagemin.svgo({
+        plugins: [{
+            removeViewBox: false
+          },
+          {
+            cleanupIDs: false
+          }
+        ]
+      })
+    ])))
     .pipe(gulpif(env === 'production', gulp.dest(outputDir + 'images')))
     .pipe(connect.reload());
 });
